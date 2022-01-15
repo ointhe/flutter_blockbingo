@@ -1,44 +1,26 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_block_bingo/component/block.dart';
 import 'package:flutter_block_bingo/component/game_board.dart';
 
-///
-///  GameBlock :
-///   사용자 Object.
-class GameBlock extends StatelessWidget {
-  // const 생성자로 생성할 시 문제 * maingame.dart 의 List<GameBlock> _gameblocklist의 인스턴스가 호출될때 마다 새로 생성 됨
-  // why?
-  // const GameBlock({Key? key, this.blockTypeNumber}) : super(key: key);
+class GameBlockWidget extends StatelessWidget {
+  const GameBlockWidget({
+    Key? key,
+    this.gameBlock,
+  }) : super(key: key);
 
-  GameBlock({Key? key, this.blockTypeNumber, this.blockBoxSize = 25})
-      : super(key: key) {
-    blockTypeNumber = blockTypeNumber ?? RandomBitNum();
-  }
-
-  /// block type for number (1~512)
-  int? blockTypeNumber;
-
-  /// 1 block size default 25
-  int? blockBoxSize;
-
-  int? getblockTypeNumber() => blockTypeNumber;
-  int RandomBitNum() => Random().nextInt(511) + 1;
-
-  List<bool> RandomeBlockTypeGet() {
-    List<bool> _blockType = [];
-    int _typeNum = blockTypeNumber ?? 0;
-
-    while (_blockType.length < 9) {
-      _blockType.add(_typeNum % 2 == 0 ? false : true);
-      _typeNum ~/= 2;
-    }
-    return _blockType;
+  final GameBlock? gameBlock;
+  get gameBlockGet => gameBlock;
+  initGameBlockWidget(GameBlock? gameBlock) {
+    gameBlock = gameBlock ?? GameBlock()
+      ..RandomeBlockTypeSet();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<bool> _blockTypeList = RandomeBlockTypeGet();
-
+    initGameBlockWidget(gameBlock);
+    List<bool> _blockTypeList = gameBlock!.blockType;
+    double _blockBoxSize = gameBlock!.blockBoxSize?.toDouble() ?? 20;
     return Center(
       child: Expanded(
         child: Padding(
@@ -70,8 +52,8 @@ class GameBlock extends StatelessWidget {
                                   Radius.circular(1.5),
                                 ),
                               ),
-                              width: 20,
-                              height: 20,
+                              width: _blockBoxSize,
+                              height: _blockBoxSize,
                               // color: Colors.pink,
                             )
                           : Container(
@@ -85,8 +67,8 @@ class GameBlock extends StatelessWidget {
                               //   Radius.circular(1.5),
                               // ),
                               // ),
-                              width: 20,
-                              height: 20,
+                              width: _blockBoxSize,
+                              height: _blockBoxSize,
                               // color: Colors.pink,
                             )
                   ],

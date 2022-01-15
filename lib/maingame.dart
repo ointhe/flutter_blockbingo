@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_block_bingo/component/game_block.dart';
+import 'package:flutter_block_bingo/component/game_block_widget.dart';
 import 'package:flutter_block_bingo/util.dart';
+
+import 'component/game_board.dart';
 
 class MainGame extends StatefulWidget {
   const MainGame({Key? key}) : super(key: key);
@@ -9,10 +11,10 @@ class MainGame extends StatefulWidget {
   _MainGameState createState() => _MainGameState();
 }
 
-final List<GameBlock> _gameblocklist = [
-  GameBlock(),
-  GameBlock(),
-  GameBlock(),
+final List<GameBlockWidget> _gameblocklist = [
+  const GameBlockWidget(),
+  const GameBlockWidget(),
+  const GameBlockWidget(),
 ];
 set gameblocklist(gb) {
   _gameblocklist.add(gb);
@@ -37,7 +39,7 @@ class _MainGameState extends State<MainGame> {
                     child: Text('Block Bingo'),
                     onPressed: () {
                       setState(() {
-                        _gameblocklist[0] = GameBlock();
+                        _gameblocklist[0] = GameBlockWidget();
                       });
                     },
                   ),
@@ -57,8 +59,11 @@ class _MainGameState extends State<MainGame> {
         ),
         Expanded(
           flex: 7,
-          child: DragTarget(
-            builder: (context, candidateData, rejectedData) => Container(),
+          child: Center(
+            child: DragTarget(
+              builder: (context, candidateData, rejectedData) =>
+                  const GameBoard(),
+            ),
           ),
         ),
         Expanded(

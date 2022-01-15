@@ -1,4 +1,4 @@
-import 'component/game_block.dart';
+import 'component/game_block_widget.dart';
 
 enum GameBlockSkin {
   aa,

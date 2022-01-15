@@ -3,86 +3,48 @@ import 'package:flutter/material.dart';
 import '../util.dart';
 
 class GameBoard extends StatefulWidget {
-  const GameBoard({Key? key}) : super(key: key);
-
+  const GameBoard({Key? key, this.boxSizeX = 3, this.boxSizeZ = 3})
+      : super(key: key);
+  final int boxSizeX;
+  final int boxSizeZ;
   @override
   _GameBoardState createState() => _GameBoardState();
 }
 
-List<Widget> getForLoopWidget(int size, dynamic T) {
-  List<Widget> resultList = [];
-  if (T is Row) {
-    for (var i = 0; i < size; i++) {
-      resultList.add(Row());
-    }
-  } else if (T is Column) {
-    for (var i = 0; i < size; i++) {
-      resultList.add(Column());
-    }
-  }
-  return resultList;
-}
-
-Widget getGameBoard({GameModes gameMode = GameModes.Normal}) {
-  int _boardSize = 3;
-
-  return Row(children: getForLoopWidget(_boardSize, Column()));
-}
-
 class _GameBoardState extends State<GameBoard> {
-  var gameBoardNomalMode = Row(
-    children: [Column()],
-  );
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(20),
-
-        // 3col
-        child: Column(
-          children: [
-            // top bar
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'Score',
-                      ),
-                    ),
-                    flex: 9,
+    return Expanded(
+      child: Center(
+        child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                for (int colI = 0; colI < widget.boxSizeX; colI++)
+                  Row(
+                    children: [
+                      for (int colI = 0; colI < widget.boxSizeX; colI++)
+                        Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.fromBorderSide(BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                )),
+                                // color: Colors.red,
+                              ),
+                              width: 70,
+                              height: 70,
+                              // color: Colors.pink,
+                            ),
+                          ],
+                        )
+                    ],
                   ),
-                  Expanded(
-                    child: Icon(Icons.settings),
-                    flex: 1,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 7,
-              child: Row(
-                children: [
-                  Center(
-                    child: gameBoardNomalMode,
-                  ),
-                  SizedBox(height: 10.0, width: 10.0),
-                  Text('aa'),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 7,
-              child: Row(
-                children: [
-                  SizedBox(height: 10.0, width: 10.0),
-                  Text('bb'),
-                ],
-              ),
-            ),
-          ],
-        ));
+              ],
+            )),
+      ),
+    );
   }
 }

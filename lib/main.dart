@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_block_bingo/component/game_block.dart';
+import 'package:flutter_block_bingo/component/game_block_widget.dart';
 import 'package:flutter_block_bingo/util.dart';
 
 import 'component/game_board.dart';
