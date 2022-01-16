@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_block_bingo/component/game_block_widget.dart';
 import 'package:flutter_block_bingo/util.dart';
 
-import 'component/game_board.dart';
+import 'component/game_board_widget.dart';
 import 'maingame.dart';
 
 void main() {
@@ -24,17 +24,5 @@ class MyApp extends StatelessWidget {
           appBar: null,
           body: MainGame(),
         ));
-
-    // return MaterialApp(
-    //   title: 'Flutter layout demo',
-    //   home: Scaffold(
-    //     // appBar: AppBar(
-    //     // title: Text('Flutter layout demo'),
-    //     // ),
-    //     body: SizedBox(
-    //       child: Text('aaa'),
-    //     ),
-    //   ),
-    // );
   }
 }

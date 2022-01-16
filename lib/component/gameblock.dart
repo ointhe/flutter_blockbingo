@@ -1,12 +1,16 @@
 import 'dart:math';
 
+import '../constant.dart';
+
 class GameBlock {
-  GameBlock({this.blockBoxSize, this.blockTypeNumber = 0});
+  GameBlock({this.blockBoxSize = BLOCK_USE_SIZE, this.blockTypeNumber = 0}) {
+    RandomeBlockTypeSet();
+  }
 
   /// block type for number (1~512)
   int blockTypeNumber;
 
-  /// 1 block size default 25
+  /// 1 block size default [BLOCK_USE_SIZE]25
   num? blockBoxSize;
 
   /// get Random number(1~512)
