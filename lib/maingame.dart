@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_block_bingo/component/gameblock.dart';
 import 'package:flutter_block_bingo/component/game_block_widget.dart';
 import 'package:flutter_block_bingo/component/gameboard.dart';
+import 'package:flutter_block_bingo/component/gameboard_provider.dart';
 import 'package:flutter_block_bingo/constant.dart';
 import 'package:flutter_block_bingo/util.dart';
+import 'package:provider/provider.dart';
 
 import 'component/game_board_widget.dart';
 
@@ -15,6 +17,8 @@ class MainGame extends StatefulWidget {
 }
 
 final List<GameBlockWidget> _gameblocklist = [];
+final GameBoardWidget _gameBoardWidget =
+    GameBoardWidget(gameBoard: GameBoard(boxSizeX: 3, boxSizeZ: 3));
 
 /// GameData init
 /// that gameblocklist,
@@ -72,6 +76,7 @@ class _MainGameState extends State<MainGame> {
     initGameData();
   }
 
+// TODO: Provder add and block offset (feedbackblocks)
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -113,20 +118,7 @@ class _MainGameState extends State<MainGame> {
             Expanded(
               flex: 7,
               child: Center(
-                child: DragTarget(
-                  onAccept: (data) {
-                    print(data.toString() + ':: ON ACCEPT!!');
-                  },
-                  builder: (context, candidateData, rejectedData) =>
-                      GameBoardWidget(
-                    gameBoard: GameBoard(boxSizeX: 3, boxSizeZ: 3),
-                  ),
-                  onWillAccept: (data) {
-                    if (data is! GameBlock) return false;
-                    // if (data.po)
-                    return true;
-                  },
-                ),
+                child: Container(child: _gameBoardWidget),
               ),
             ),
             Expanded(
@@ -153,6 +145,8 @@ class _MainGameState extends State<MainGame> {
                                   child: _gameblocklist[listIdx],
                                   onDragCompleted: () {
                                     setState(() {
+                                      // _gameBoardWidget.gameBoard.addGameBlock(
+                                      //     _gameblocklist[listIdx].gameBlock!);
                                       changeListNewBlock(listIdx);
                                     });
                                   },

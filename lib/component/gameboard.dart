@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_block_bingo/component/gameblock.dart';
+
 class GameBoard {
   GameBoard({boxSizeX, boxSizeZ}) {
     _boxSizeX = boxSizeX;

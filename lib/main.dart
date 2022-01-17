@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_block_bingo/component/game_block_widget.dart';
+import 'package:flutter_block_bingo/component/gameboard_provider.dart';
 import 'package:flutter_block_bingo/util.dart';
+import 'package:provider/provider.dart';
 
 import 'component/game_board_widget.dart';
 import 'maingame.dart';
 
 void main() {
   runApp(const MyApp());
+
+  // runApp(MultiProvider(
+  //   providers: [
+  //     Provider<GameBoardProvider>(
+  //       create: (_) => GameBoardProvider(),
+  //     ),
+  //   ],
+  //   child: MyApp(),
+  // ));
 }
 
 class MyApp extends StatelessWidget {

@@ -18,6 +18,7 @@ class GameBlockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('GameBlockWidget Build!!!');
     // initGameBlockWidget();
     List<bool> _blockTypeList = gameBlock!.blockType;
     double _blockBoxSize = gameBlock!.blockBoxSize!.toDouble();
