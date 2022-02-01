@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_block_bingo/component/gameblock.dart';
 import 'package:flutter_block_bingo/component/gameboard.dart';
 
-import '../util.dart';
+import '../blockbingo_util.dart';
 
 class GameBoardWidget extends StatefulWidget {
   const GameBoardWidget({
@@ -30,15 +32,34 @@ bool addGameBlock(GameBoard gameBoard, GameBlock gameBlock) {
   return true;
 }
 
+bool isBlockVaildCheck(
+    GameBlock gameBlock, GameBoard gameBoard, Offset offset) {
+  return true;
+}
+
 class _GameBoardState extends State<GameBoardWidget> {
+  // blockSize Singleton util init
+  bool initBoxSize = true;
+  String _text = "aaaaa";
+  GlobalKey _boardKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    // blockSize Singleton util init
+    if (initBoxSize) {
+      BlockBingoUtilSingleTon().boxSize = min(MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height) /
+          5;
+      initBoxSize = false;
+    }
+
     print('_GameBoardState Build!!!');
     int blockOpacityLength = widget.gameBoard.blockOpacity.length;
     int colorIdx = 0;
 
     Widget _board = Center(
       child: Container(
+          key: _boardKey,
+          color: Colors.yellow,
           // decoration: BoxDecoration(
           //   border: Border(),
           // ),
@@ -47,6 +68,7 @@ class _GameBoardState extends State<GameBoardWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(_text),
               for (int colI = 0; colI < widget.gameBoard.boxSizeX; colI++)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,8 +90,8 @@ class _GameBoardState extends State<GameBoardWidget> {
                                       : 0],
                             ),
                           ),
-                          width: 70,
-                          height: 70,
+                          width: BlockBingoUtilSingleTon().boxSize,
+                          height: BlockBingoUtilSingleTon().boxSize,
                           // color: Colors.pink,
                         ),
                       ),
@@ -81,20 +103,44 @@ class _GameBoardState extends State<GameBoardWidget> {
 
     return DragTarget(
       onAccept: (GameBlock data) {
-        // addGameBlock()
-        setState(() {
-          addGameBlock(widget.gameBoard, data);
-        });
-        // context.watch<GameBoard>()
-        //   ..addGameBlock(_gameBoardWidget.gameBoard, data);
-        // Provider.of<GameBoardProvider>(context)
-        //     .addGameBlock(_gameBoardWidget.gameBoard, data);
+        print('onAccept');
+        // // addGameBlock()
+        // setState(() {
+        //   addGameBlock(widget.gameBoard, data);
+        // });
+      },
+      onAcceptWithDetails: (DragTargetDetails<GameBlock> details) {
+        print('=========================');
+        print(BlockBingoUtilSingleTon().boxSize.toString());
+        print(details.data is GameBlock);
+        print(details.offset.dx);
+        print(details.offset.dy);
+        RenderBox? _boardBox =
+            _boardKey.currentContext?.findRenderObject() as RenderBox?;
+        Offset boardOffset =
+            _boardBox?.localToGlobal(Offset.zero) ?? Offset.zero;
 
-        print(data.toString() + ':: ON ACCEPT!!');
+        print(boardOffset.dx.toString() + ' ::: ' + boardOffset.dy.toString());
+        print(context.size!.width.toString() +
+            ' : ' +
+            context.size!.height.toString());
+
+        print('onAcceptDetails');
+        setState(() {
+          addGameBlock(widget.gameBoard, details.data);
+          _text = " [ " +
+              details.offset.dx.toString() +
+              " : " +
+              details.offset.dy.toString() +
+              " ] dx:dy";
+        });
       },
       builder: (context, candidateData, rejectedData) => _board,
       onWillAccept: (data) {
+        print('onWillAccept');
+
         if (data is! GameBlock) return false;
+
         // if (data.po)
         return true;
       },

@@ -38,7 +38,7 @@ class GameBlockWidget extends StatelessWidget {
                               shape: BoxShape.rectangle,
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.blue,
+                                  color: Colors.red,
                                   blurRadius: 1.0,
                                 ),
                               ],

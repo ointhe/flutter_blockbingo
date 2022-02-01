@@ -4,7 +4,7 @@ import 'package:flutter_block_bingo/component/game_block_widget.dart';
 import 'package:flutter_block_bingo/component/gameboard.dart';
 import 'package:flutter_block_bingo/component/gameboard_provider.dart';
 import 'package:flutter_block_bingo/constant.dart';
-import 'package:flutter_block_bingo/util.dart';
+import 'package:flutter_block_bingo/blockbingo_util.dart';
 import 'package:provider/provider.dart';
 
 import 'component/game_board_widget.dart';
@@ -58,7 +58,7 @@ Widget feedBackBlockGet(idx) {
                 opacity: 0.33,
                 child: GameBlockWidget(
                   gameBlock: GameBlock(
-                    blockBoxSize: BLOCK_FEEDBACK_SIZE,
+                    blockBoxSize: BlockBingoUtilSingleTon().boxSize,
                     blockTypeNumber:
                         _gameblocklist[idx].gameBlockGet.blockTypeNumber,
                   ),
@@ -76,7 +76,6 @@ class _MainGameState extends State<MainGame> {
     initGameData();
   }
 
-// TODO: Provder add and block offset (feedbackblocks)
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -143,13 +142,16 @@ class _MainGameState extends State<MainGame> {
                                   listIdx++)
                                 Draggable(
                                   child: _gameblocklist[listIdx],
+
                                   onDragCompleted: () {
+                                    print('Drag Completed!!');
                                     setState(() {
                                       // _gameBoardWidget.gameBoard.addGameBlock(
                                       //     _gameblocklist[listIdx].gameBlock!);
                                       changeListNewBlock(listIdx);
                                     });
                                   },
+                                  // feedback: Container(),
                                   feedback: feedBackBlockGet(listIdx),
                                   data: _gameblocklist[listIdx].gameBlockGet,
                                 ),

@@ -1,5 +1,5 @@
 /// Size used for feedback block
-const int BLOCK_FEEDBACK_SIZE = 70;
+// const int BLOCK_FEEDBACK_SIZE = 70;
 
 /// Size used for queued draggable blocks
 const num BLOCK_USE_SIZE = 25;
@@ -13,3 +13,5 @@ enum GameBlockSkin {
 enum GameModes {
   Normal,
 }
+
+//Global
