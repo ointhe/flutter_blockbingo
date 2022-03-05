@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_block_bingo/component/gameblock.dart';
-import 'package:flutter_block_bingo/component/gameboard.dart';
+import 'package:flutter_block_bingo/component/game_block.dart';
+import 'package:flutter_block_bingo/component/game_board.dart';
 
 import '../blockbingo_util.dart';
 
@@ -16,27 +16,6 @@ class GameBoardWidget extends StatefulWidget {
   _GameBoardState createState() => _GameBoardState();
 }
 
-bool addGameBlock(GameBoard gameBoard, GameBlock gameBlock) {
-  //add fail
-  if (gameBoard.blockOpacity.length < gameBlock.blockType.length) return false;
-  int boardIdx = 0;
-  for (var element in gameBlock.blockType) {
-    gameBoard.blockOpacity[boardIdx] =
-        gameBoard.blockOpacity[boardIdx] > (1.0 - 0.33)
-            ? element
-                ? 0.0
-                : 1.0
-            : gameBoard.blockOpacity[boardIdx] + (element ? 0.33 : 0.0);
-    boardIdx++;
-  }
-  return true;
-}
-
-bool isBlockVaildCheck(
-    GameBlock gameBlock, GameBoard gameBoard, Offset offset) {
-  return true;
-}
-
 class _GameBoardState extends State<GameBoardWidget> {
   // blockSize Singleton util init
   bool initBoxSize = true;
@@ -46,9 +25,7 @@ class _GameBoardState extends State<GameBoardWidget> {
   Widget build(BuildContext context) {
     // blockSize Singleton util init
     if (initBoxSize) {
-      BlockBingoUtilSingleTon().boxSize = min(MediaQuery.of(context).size.width,
-              MediaQuery.of(context).size.height) /
-          5;
+      BlockBingoUtilSingleTon().setBoxSizeforContext(context);
       initBoxSize = false;
     }
 
@@ -57,8 +34,8 @@ class _GameBoardState extends State<GameBoardWidget> {
     int colorIdx = 0;
 
     Widget _board = Center(
+      key: _boardKey,
       child: Container(
-          key: _boardKey,
           color: Colors.yellow,
           // decoration: BoxDecoration(
           //   border: Border(),
@@ -119,15 +96,20 @@ class _GameBoardState extends State<GameBoardWidget> {
             _boardKey.currentContext?.findRenderObject() as RenderBox?;
         Offset boardOffset =
             _boardBox?.localToGlobal(Offset.zero) ?? Offset.zero;
+        // _boardBox?.globalToLocal(Offset.zero) ?? Offset.zero;
 
         print(boardOffset.dx.toString() + ' ::: ' + boardOffset.dy.toString());
+        print((_boardKey.currentContext?.size?.width.toString() ?? 'a') +
+            ' === ' +
+            (_boardKey.currentContext?.size?.height.toString() ?? 'a'));
         print(context.size!.width.toString() +
             ' : ' +
             context.size!.height.toString());
 
         print('onAcceptDetails');
+
         setState(() {
-          addGameBlock(widget.gameBoard, details.data);
+          addGameBlockToBoard(widget.gameBoard, details.data);
           _text = " [ " +
               details.offset.dx.toString() +
               " : " +

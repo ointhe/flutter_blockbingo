@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_block_bingo/component/gameblock.dart';
+import 'package:flutter_block_bingo/component/game_block.dart';
 import 'package:flutter_block_bingo/component/game_block_widget.dart';
-import 'package:flutter_block_bingo/component/gameboard.dart';
+import 'package:flutter_block_bingo/component/game_board.dart';
 import 'package:flutter_block_bingo/component/gameboard_provider.dart';
 import 'package:flutter_block_bingo/constant.dart';
 import 'package:flutter_block_bingo/blockbingo_util.dart';
@@ -44,7 +44,8 @@ changeListNewBlock(idx) {
 }
 
 /// Dragable Block for Feedback
-Widget feedBackBlockGet(idx) {
+Widget feedBackBlockGet(idx, context) {
+  BlockBingoUtilSingleTon().setBoxSizeforContext(context);
   return _gameblocklist.length < idx
       ? Container()
       : SizedBox(
@@ -135,7 +136,7 @@ class _MainGameState extends State<MainGame> {
                         children: [
                           Container(),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               for (int listIdx = 0;
                                   listIdx < _gameblocklist.length;
@@ -152,9 +153,26 @@ class _MainGameState extends State<MainGame> {
                                     });
                                   },
                                   // feedback: Container(),
-                                  feedback: feedBackBlockGet(listIdx),
+                                  feedback: feedBackBlockGet(listIdx, context),
                                   data: _gameblocklist[listIdx].gameBlockGet,
                                 ),
+                              Container(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  icon: Icon(Icons.refresh),
+                                  onPressed: () {
+                                    for (int i = 0;
+                                        i < _gameblocklist.length;
+                                        i++) {
+                                      setState(() {
+                                        _gameblocklist[i]
+                                            .gameBlock
+                                            ?.rotationBlock();
+                                      });
+                                    }
+                                  },
+                                ),
+                              )
                             ],
                           ),
                           Container(),

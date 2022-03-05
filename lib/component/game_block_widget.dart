@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_block_bingo/component/gameblock.dart';
+import 'package:flutter_block_bingo/component/game_block.dart';
 import 'package:flutter_block_bingo/component/game_board_widget.dart';
 
 class GameBlockWidget extends StatelessWidget {
